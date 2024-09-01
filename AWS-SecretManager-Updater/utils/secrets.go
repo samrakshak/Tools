@@ -42,7 +42,7 @@ func (sm *SecretManagerClient) UpdateSecretValue(secretID string, updatedJSON st
 	return err
 }
 
-func (sm *SecretManagerClient) UpdateSecretKey(secretID string, key, newValue string) (string, error) {
+func (sm *SecretManagerClient) UpdateSecretKey(secretID, key, newValue string) (string, error) {
 	secretJSON, err := sm.GetSecretValue(secretID)
 	if err != nil {
 		return "", err
@@ -50,13 +50,18 @@ func (sm *SecretManagerClient) UpdateSecretKey(secretID string, key, newValue st
 
 	updatedJSON, err := sjson.Set(secretJSON, key, newValue)
 	if err != nil {
-		return "", fmt.Errorf("Failed to update JSON key: %v", err)
+		return "", fmt.Errorf("failed to update JSON key: %v", err)
 	}
 
 	err = sm.UpdateSecretValue(secretID, updatedJSON)
 	if err != nil {
-		return "", fmt.Errorf("Failed to update sercert: %v", err)
+		return "", fmt.Errorf("failed to update sercert: %v", err)
 	}
 
 	return updatedJSON, nil
 }
+
+
+// func (sm *SecretManagerClient) AddSecretKey(secretID, newKey, newValue string) (string,error) {
+	  
+// }

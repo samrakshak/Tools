@@ -38,6 +38,33 @@ func SelectKeyFromJSON(secretJSON string) string {
 	return selectedKey
 }
 
+func SelectConfigOption() (int, string) {
+	optionSelection := []string{
+		"1. Update Existing Key/Value",
+		"2. Create New Key/Value",
+		"3. Delete an Existing Key/value",
+	}
+	optionPrompt := promptui.Select{
+		Label: "Select your Option",
+		Items: optionSelection,
+	}
+	index, selectedOption, err := optionPrompt.Run()
+	if err != nil {
+		log.Fatalf("Failed to select option: %v", err)
+	}
+	return index, selectedOption
+}
+
+func PromptNewKey() string {
+	keyPrompt := promptui.Prompt{
+		Label: "Enter new key",
+	}
+	newKey, err := keyPrompt.Run()
+	if err != nil {
+		log.Fatalf("Prompt failed: %v\n", err)
+	}
+	return newKey
+}
 func PromptNewValue(key string) string {
 	valuePrompt := promptui.Prompt{
 		Label: fmt.Sprintf("Enter new value for %s", key),
